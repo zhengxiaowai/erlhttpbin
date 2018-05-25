@@ -1,21 +1,16 @@
-%%%-------------------------------------------------------------------
-%%% @author 正小歪
-%%% @copyright (C) 2018, <COMPANY>
-%%% @doc
-%%%
-%%% @end
-%%% Created : 22. 五月 2018 18:23
-%%%-------------------------------------------------------------------
 -module(notfound_handler).
--author("正小歪").
 -export([init/2]).
 
-%% API
+% API
 
-init(Req, Opts) ->
+init(Req, State) -> 
+    {Response, State1} = handle(cowboy_req:method(Req), Req, State),
+    {ok, Response, State1}.
+
+% internal function
+
+handle(_, Req, State) ->
+    ResponseHeader = #{<<"content-type">> => <<"application/json">>},
     {HTTPCode, Content} = utils:make_response({error, requested_resource_not_found}),
-    ResponseHeader = #{
-        <<"content-type">> => <<"application/json">>
-    },
-    Response = cowboy_req:reply(HTTPCode, ResponseHeader, Content, Req),
-    {ok, Response, Opts}.
+    {cowboy_req:reply(HTTPCode, ResponseHeader, Content, Req), State}.
+

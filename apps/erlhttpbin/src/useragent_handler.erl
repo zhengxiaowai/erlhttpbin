@@ -1,4 +1,4 @@
--module(headers_handler).
+-module(useragent_handler).
 -export([init/2]).
 
 % API
@@ -11,8 +11,8 @@ init(Req, State) ->
 
 handle(<<"GET">>, Req, State) ->
     ResponseHeader = #{<<"content-type">> => <<"application/json">>},
-    AllHeaders = cowboy_req:headers(Req),
-    {HTTPCode, Content} = utils:make_response({ok, #{<<"headers">> => AllHeaders}}),
+    UA = cowboy_req:header(<<"user-agent">>, Req, #{}),
+    {HTTPCode, Content} = utils:make_response({ok, #{<<"user-agent">> => UA}}),
     {cowboy_req:reply(HTTPCode, ResponseHeader, Content, Req), State};
 
 handle(_, Req, State) ->

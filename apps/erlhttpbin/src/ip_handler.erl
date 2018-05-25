@@ -22,8 +22,7 @@ init(Req, State) ->
 handle(<<"GET">>, Req, State) ->
   {IP, _} = cowboy_req:peer(Req),
   ResponseHeader = #{<<"content-type">> => <<"application/json">>},
-  RawContent = jsx:encode([{<<"origin">>, list_to_binary(inet_parse:ntoa(IP))}]),
-  {HTTPCode, Content} = utils:make_response({ok, RawContent}),
+  {HTTPCode, Content} = utils:make_response({ok, #{<<"origin">> => list_to_binary(inet_parse:ntoa(IP))}}),
   {cowboy_req:reply(HTTPCode, ResponseHeader, Content, Req), State};
 
 

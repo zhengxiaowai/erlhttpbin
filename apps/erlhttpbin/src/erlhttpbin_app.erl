@@ -19,6 +19,7 @@ start(_Type, _Args) ->
         {'_', [
             {"/ip", ip_handler, []},
             {"/headers", headers_handler, []},
+            {"/user-agent", useragent_handler, []},
             {'_', notfound_handler, []}
         ]}
     ]),
