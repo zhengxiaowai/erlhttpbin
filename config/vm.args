@@ -1,0 +1,6 @@
+-sname erlhttpbin
+
+-setcookie erlhttpbin_cookie
+
++K true
++A30
